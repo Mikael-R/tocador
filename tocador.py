@@ -1,6 +1,5 @@
 from pygame import mixer
 from os import listdir
-from os import path
 import comandos
 
 playlist = list()
@@ -64,7 +63,7 @@ while True:
 
 # SAIR
     if opcao == '0':
-        sair = comandos.sair()
+        sair = comandos.sair('Deseja sair do programa [sim/não]: ')
 
         if sair == False:
             print(opcoes)
@@ -81,16 +80,10 @@ while True:
 
 # MUDAR VOLUME
     elif opcao == '6':
-        volume = str(input('\nDigite um novo volume: ')).strip()
-        while not volume.isnumeric():
-            print('>>> Digite apenas números.')
-            volume = str(input('\nDigite um novo volume: ')).strip()
-        while int(volume) not in range(11):
-            print('>>> O volume suportado é de 0 a 10.')
-            volume = str(input('\nDigite um novo volume: ')).strip()
+        volume = comandos.volume('Digite um novo volume: ')
 
         print(f'>>> O volume foi mudado de {mixer.music.get_volume() * 10:.0f} para {volume}.')
-        mixer.music.set_volume(int(volume) / 10)
+        mixer.music.set_volume(volume / 10)
 
 
 # PLAYLIST
@@ -105,15 +98,14 @@ while True:
 
 # MUSICAS DISPONIVEIS
     elif opcao == '9':
-        cont = 1
         print('>>> As músicas disponíveis são: ')
 
-        diretorio_audio = path.dirname(path.realpath(__file__)) + '/audio'
-        arquivo_lista_audio = listdir(diretorio_audio)
+        lista_musicas = comandos.disponiveis('audio')
 
-        for arquivo_lista in arquivo_lista_audio:
+        cont = 1
+        for lista_musica in lista_musicas:
             print(cont, '-', end=' ')
-            print(arquivo_lista[:-4])
+            print(lista_musica[:-4])
             cont += 1
 
 

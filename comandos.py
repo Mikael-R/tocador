@@ -1,4 +1,4 @@
-from os import path
+from os import path, listdir
 
 
 def ismp3(arquivo):
@@ -21,11 +21,12 @@ def existe(arquivo):
         return False
 
 
-def sair():
-    sair = str(input('Deseja sair do programa [sim/não]: ')).strip().lower()
+def sair(txt):
+    sair = str(input(txt)).strip().lower()
     while sair != 'sim' and sair != 'não':
         print('>>> Digite uma opção válida.')
-        sair = str(input('\nDeseja sair do programa [sim/não]: ')).strip().lower()
+        print('')
+        sair = str(input(txt)).strip().lower()
 
     if sair == 'não':
         return False
@@ -36,4 +37,31 @@ def sair():
 
 def diretorio(arquivo):
     return path.dirname(path.realpath(__file__)) + '/audio' + '/' + arquivo
+
+
+def volume(txt):
+    print('')
+    volume = str(input(txt)).strip()
+
+    while True:
+        if not volume.isnumeric():
+            print('>>> Digite apenas números inteiros.')
+            print('')
+            volume = str(input(txt)).strip()
+        elif int(volume) not in range(11):
+            print('>>> O volume suportado é de 0 a 10.')
+            print('')
+            volume = str(input(txt)).strip()
+        else:
+            volume = int(volume)
+            break
+
+    return volume
+
+
+def disponiveis(pasta):
+    disponiveis_diretorio = path.dirname(path.realpath(__file__)) + '/' + pasta
+    disponiveis_lista = listdir(disponiveis_diretorio)
+
+    return disponiveis_lista
 
