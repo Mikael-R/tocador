@@ -1,27 +1,7 @@
 from pygame import mixer
 from os import listdir
 from os import path
-
-
-def ismp3(arquivo):
-    if arquivo[-4:] == '.mp3':
-        return True
-    else:
-        return False
-
-
-def existe(arquivo):
-    if arquivo[-4:] != '.mp3':
-        arquivo = arquivo + '.mp3'
-
-    diretorio_audio = path.dirname(path.realpath(__file__)) + '/audio'
-    arquivo_diretorio = diretorio_audio + '/' + arquivo
-
-    if path.exists(arquivo_diretorio):
-        return True
-    else:
-        return False
-
+import comandos
 
 playlist = list()
 opcoes = ('''
@@ -52,19 +32,19 @@ while True:
         print('>>> Lembre-se: apenas arquivos mp3 são reproduzidos.')
         musica = str(input('\nQual música deseja ouvir: ')).strip()
 
-    if existe(musica) == True:
-        if ismp3(musica) ==  True:
+    if comandos.existe(musica) == True:
+        if comandos.ismp3(musica) ==  True:
             arquivo = musica
             musica = musica[:-4]
-            diretorio = path.dirname(path.realpath(__file__)) + '/audio' + '/' + arquivo
+            diretorio = comandos.diretorio(arquivo)
             break
         else:
             arquivo = musica + '.mp3'
-            diretorio = path.dirname(path.realpath(__file__)) + '/audio' + '/' + arquivo
+            diretorio = comandos.diretorio(arquivo)
             break
 
-    if existe(musica) == False:
-        if ismp3(musica) == True:
+    if comandos.existe(musica) == False:
+        if comandos.ismp3(musica) == True:
             print(f'>>> O arquivo "{musica}" não foi encontrado.')
         else:
             print(f'>>> A música "{musica}" não foi encontrada.')
@@ -81,22 +61,17 @@ print(opcoes)
 
 while True:
     opcao = str(input('\nQual sua opção: ')).strip()
-    while opcao not in '012345678910':
-        print('>>> Digite uma opção válida.')
-        opcao = str(input('\nQual sua opção: ')).strip()
 
 # SAIR
     if opcao == '0':
-        sair = str(input('Deseja sair do programa [sim/não]: ')).strip().lower()
-        while sair != 'sim' and sair != 'não':
-            print('>>> Digite uma opção válida.')
-            sair = str(input('\nDeseja sair do programa [sim/não]: ')).strip().lower()
+        sair = comandos.sair()
 
-        if sair == 'não':
+        if sair == False:
             print(opcoes)
 
-        if sair == 'sim':
-            break
+        if sair == True:
+            print('>>> Programa finalizado!')
+            exit()
 
 
 # VOLUME
@@ -162,19 +137,19 @@ while True:
                     print('>>> Lembre-se: apenas arquivos mp3 e são reproduzidos.')
                     musica = str(input('\nQual música deseja ouvir: ')).strip()
 
-                if existe(musica) == True:
-                    if ismp3(musica) ==  True:
+                if comandos.existe(musica) == True:
+                    if comandos.ismp3(musica) ==  True:
                         arquivo = musica
                         musica = musica[:-4]
-                        diretorio = path.dirname(path.realpath(__file__)) + '/audio' + '/' + arquivo
+                        diretorio = comandos.diretorio(arquivo)
                         break
                     else:
                         arquivo = musica + '.mp3'
-                        diretorio = path.dirname(path.realpath(__file__)) + '/audio' + '/' + arquivo
+                        diretorio = comandos.diretorio(arquivo)
                         break
 
-                if existe(musica) == False:
-                    if ismp3(musica) == True:
+                if comandos.existe(musica) == False:
+                    if comandos.ismp3(musica) == True:
                         print(f'>>> O arquivo "{musica}" não foi encontrado.')
                     else:
                         print(f'>>> A música "{musica}" não foi encontrada.')
@@ -196,19 +171,19 @@ while True:
                     print('>>> Lembre-se: apenas arquivos mp3 são reproduzidos.')
                     musica = str(input('\nQual música deseja ouvir: ')).strip()
 
-                if existe(musica) == True:
-                    if ismp3(musica) ==  True:
+                if comandos.existe(musica) == True:
+                    if comandos.ismp3(musica) ==  True:
                         arquivo = musica
                         musica = musica[:-4]
-                        diretorio = path.dirname(path.realpath(__file__)) + '/audio' + '/' + arquivo
+                        diretorio = comandos.diretorio(arquivo)
                         break
                     else:
                         arquivo = musica + '.mp3'
-                        diretorio = path.dirname(path.realpath(__file__)) + '/audio' + '/' + arquivo
+                        diretorio = comandos.diretorio(arquivo)
                         break
 
-                if existe(musica) == False:
-                    if ismp3(musica) == True:
+                if comandos.existe(musica) == False:
+                    if comandos.ismp3(musica) == True:
                         print(f'>>> O arquivo "{musica}" não foi encontrado.')
                     else:
                         print(f'>>> A música "{musica}" não foi encontrada.')
@@ -309,6 +284,3 @@ while True:
 # OPÇÃO INVÁLIDA
     else:
         print('>>> Digite uma opção válida.')
-
-
-print('\n>>> Programa finalizado!')
