@@ -1,26 +1,7 @@
 from pygame import mixer
-from os import listdir
 import comandos
 
 playlist = list()
-opcoes = ('''
-======= OPÇÕES =======
-[0] Sair
-[1] Substituir
-[2] Loop
-[3] Reiniciar
-[4] Pausar / Despausar
-[5] Volume
-[6] Alterar volume
-[7] Nome
-[8] Músicas reproduzidas
-[9] Músicas disponíveis''')
-opcoes_loop = ('''
-========== OPÇÕES ==========
-[1] Tocar 1 vez
-[2] Tocar 3 vezes
-[3] Tocar 4 vezes
-[4] Tocar até um próximo reinício''')
 
 mixer.init()
 
@@ -55,7 +36,7 @@ print(f'>>> A música "{musica.title()}" foi iniciada.')
 playlist.append(musica.title())
 
 
-print(opcoes)
+print(comandos.opcoes())
 
 
 while True:
@@ -66,7 +47,7 @@ while True:
         sair = comandos.sair('Deseja sair do programa [sim/não]: ')
 
         if sair == False:
-            print(opcoes)
+            print(comandos.opcoes())
 
         if sair == True:
             print('>>> Programa finalizado!')
@@ -188,7 +169,7 @@ while True:
                                   f'[sim/não]: ')).strip().lower()
 
         if proseguir == 'não':
-            print(opcoes)
+            print(comandos.opcoes())
 
         if proseguir == 'sim':
             mixer.music.load(diretorio)
@@ -199,7 +180,7 @@ while True:
 
 # LOOP
     elif opcao == '2':
-        print(opcoes_loop)
+        print(comandos.opcoes_loop())
 
         opcao_loop = str(input('\nQual sua opção de looping: ')).strip()
 
@@ -210,34 +191,30 @@ while True:
 
             # LOOP 1 VEZ
             if opcao_loop == '1':
-                mixer.music.load(arquivo)
                 mixer.music.play(1)
                 print(f'>>> A música "{musica}" foi reiniciada e será tocada 1 vez.')
-                print(opcoes)
+                print(comandos.opcoes())
                 break
 
             # LOOP 3 VEZES
             elif opcao_loop == '2':
-                mixer.music.load(arquivo)
                 mixer.music.play(3)
                 print(f'>>> A música "{musica}" foi reiniciada e será tocada 3 vezes.')
-                print(opcoes)
+                print(comandos.opcoes())
                 break
 
             # LOOP 4 VEZES
             elif opcao_loop == '3':
-                mixer.music.load(arquivo)
                 mixer.music.play(4)
                 print(f'>>> A música "{musica}" foi reiniciada e será tocada 4 vezes.')
-                print(opcoes)
+                print(comandos.opcoes())
                 break
 
             # LOOP ATÉ REINICIAR
             if opcao_loop == '4':
-                mixer.music.load(arquivo)
                 mixer.music.play(-1)
                 print(f'>>> A música "{musica}" foi reiniciada e será tocada até ser reiniciada novamente.')
-                print(opcoes)
+                print(comandos.opcoes())
                 break
 
             # LOOP ERRO
@@ -247,7 +224,6 @@ while True:
 
 # REINICIAR
     elif opcao == '3':
-        mixer.music.load(diretorio)
         mixer.music.play(1)
         mixer.music.rewind()
         print(f'>>> A música "{musica.title()}" foi reiniciada, juntamente com seus loops.')

@@ -65,3 +65,29 @@ def disponiveis(pasta):
 
     return disponiveis_lista
 
+
+def opcoes():
+    opcoes_texto = ('''
+======= OPÇÕES =======
+[0] Sair
+[1] Substituir
+[2] Loop
+[3] Reiniciar
+[4] Pausar / Despausar
+[5] Volume
+[6] Alterar volume
+[7] Música atual
+[8] Músicas reproduzidas
+[9] Músicas disponíveis''')
+    return opcoes_texto
+
+
+def opcoes_loop():
+    opcoes_loop_texto = ('''
+========== OPÇÕES ==========
+[1] Tocar 1 vez
+[2] Tocar 3 vezes
+[3] Tocar 4 vezes
+[4] Tocar até um próximo reinício''')
+    return opcoes_loop_texto
+
