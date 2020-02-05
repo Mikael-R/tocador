@@ -8,14 +8,23 @@ def ismp3(arquivo):
         return False
 
 
-def existe(arquivo):
+def existeArquivo(arquivo, diretorio):
     if arquivo[-4:] != '.mp3':
         arquivo = arquivo + '.mp3'
 
-    diretorio_audio = path.dirname(path.realpath(__file__)) + '/audio'
+    diretorio_audio = path.dirname(path.realpath(__file__)) + '/' + diretorio
     arquivo_diretorio = diretorio_audio + '/' + arquivo
 
     if path.exists(arquivo_diretorio):
+        return True
+    else:
+        return False
+
+
+def existeDiretorio(diretorio):
+    diretorio_atual = path.dirname(path.realpath(__file__))
+
+    if path.exists(diretorio_atual + '/' + diretorio):
         return True
     else:
         return False

@@ -12,7 +12,7 @@ while True:
         print('>>> Lembre-se: apenas arquivos mp3 são reproduzidos.')
         musica = str(input('\nQual música deseja ouvir: ')).strip()
 
-    if comandos.existe(musica) == True:
+    if comandos.existeArquivo(musica, 'audio') == True:
         if comandos.ismp3(musica) ==  True:
             arquivo = musica
             musica = musica[:-4]
@@ -23,7 +23,7 @@ while True:
             diretorio = comandos.diretorio(arquivo)
             break
 
-    if comandos.existe(musica) == False:
+    if comandos.existeArquivo(musica, 'audio') == False:
         if comandos.ismp3(musica) == True:
             print(f'>>> O arquivo "{musica}" não foi encontrado.')
         else:
@@ -79,20 +79,23 @@ while True:
 
 # MUSICAS DISPONIVEIS
     elif opcao == '9':
-        print('>>> As músicas disponíveis são: ')
 
-        lista_musicas = comandos.disponiveis('audio')
+        if comandos.existeDiretorio('audio'):
+            print('>>> As músicas disponíveis são: ')
+            lista_musicas = comandos.disponiveis('audio')
+            cont = 1
 
-        cont = 1
-        for lista_musica in lista_musicas:
-            print(cont, '-', end=' ')
-            print(lista_musica[:-4])
-            cont += 1
+            for lista_musica in lista_musicas:
+                print(cont, '-', end=' ')
+                print(lista_musica[:-4])
+                cont += 1
+        else:
+            print('>>> Diretorio de músicas não encontrado.')
 
 
 # VERIFICAR
     elif mixer.music.get_pos() == -1:
-        print(f'>>> Não há nenhuma música tocando no momento.')
+        print(f'>>> Nenhuma música tocando no momento.')
 
         acabou = str(input('Deseja ouvir mais uma música [sim/não]: ')).strip().lower()
         while acabou != 'sim' and acabou != 'não':
@@ -110,7 +113,7 @@ while True:
                     print('>>> Lembre-se: apenas arquivos mp3 e são reproduzidos.')
                     musica = str(input('\nQual música deseja ouvir: ')).strip()
 
-                if comandos.existe(musica) == True:
+                if comandos.existeArquivo(musica, 'audio') == True:
                     if comandos.ismp3(musica) ==  True:
                         arquivo = musica
                         musica = musica[:-4]
@@ -121,7 +124,7 @@ while True:
                         diretorio = comandos.diretorio(arquivo)
                         break
 
-                if comandos.existe(musica) == False:
+                if comandos.existeArquivo(musica, 'audio') == False:
                     if comandos.ismp3(musica) == True:
                         print(f'>>> O arquivo "{musica}" não foi encontrado.')
                     else:
@@ -144,7 +147,7 @@ while True:
                     print('>>> Lembre-se: apenas arquivos mp3 são reproduzidos.')
                     musica = str(input('\nQual música deseja ouvir: ')).strip()
 
-                if comandos.existe(musica) == True:
+                if comandos.existeArquivo(musica, 'audio') == True:
                     if comandos.ismp3(musica) ==  True:
                         arquivo = musica
                         musica = musica[:-4]
@@ -155,18 +158,16 @@ while True:
                         diretorio = comandos.diretorio(arquivo)
                         break
 
-                if comandos.existe(musica) == False:
+                if comandos.existeArquivo(musica, 'audio') == False:
                     if comandos.ismp3(musica) == True:
                         print(f'>>> O arquivo "{musica}" não foi encontrado.')
                     else:
                         print(f'>>> A música "{musica}" não foi encontrada.')
 
-        proseguir = str(input(f'Deseja substituir a música "{musica_substituida}" por "{musica}" '
-                              f'[sim/não]: ')).strip().lower()
+        proseguir = str(input(f'Deseja substituir "{musica_substituida}" por "{musica}" [sim/não]: ')).strip().lower()
         while proseguir != 'sim' and proseguir != 'não':
             print('>>> Digite uma opção válida.')
-            proseguir = str(input(f'Deseja substituir a música "{musica_substituida}" por "{musica}" '
-                                  f'[sim/não]: ')).strip().lower()
+            proseguir = str(input(f'Deseja substituir "{musica_substituida}" por "{musica}" [sim/não]: ')).strip().lower()
 
         if proseguir == 'não':
             print(comandos.opcoes())
@@ -182,12 +183,8 @@ while True:
     elif opcao == '2':
         print(comandos.opcoes_loop())
 
-        opcao_loop = str(input('\nQual sua opção de looping: ')).strip()
-
         while True:
-            while opcao_loop not in '1234':
-                print('>>> Digite uma opção válida.')
-                opcao_loop = str(input('\nQual sua opção de looping: ')).strip()
+            opcao_loop = str(input('\nQual sua opção: ')).strip()
 
             # LOOP 1 VEZ
             if opcao_loop == '1':
