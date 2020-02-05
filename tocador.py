@@ -228,17 +228,23 @@ while True:
 
 # PAUSAR / DESPAUSAR
     elif opcao == '4':
-        mixer.music.pause()
-        print(f'>>> A música "{musica.title()}" foi pausada.')
-
-        despausar = str(input('Pressione 4 novamente para despausar: '))
-        while despausar != '4':
-            print('>>> Apenas o número 4 pode ser digitado.')
-            despausar = str(input('\nPressione 4 novamente para despausar: '))
-
-        if despausar == '4':
-            mixer.music.unpause()
-            print(f'>>> A música "{musica.title()}" foi despausada.')
+        while True:
+            try:
+                if pause == True:
+                    mixer.music.unpause()
+                    pause = False
+                    print(f'>>> A música "{musica.title()}" foi despausada.')
+                    break
+                else:
+                    pause = True
+                    mixer.music.pause()
+                    print(f'>>> A música "{musica.title()}" foi pausada.')
+                    break
+            except:
+                pause = True
+                mixer.music.pause()
+                print(f'>>> A música "{musica.title()}" foi pausada.')
+                break
 
 
 # NOME
