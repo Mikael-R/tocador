@@ -30,6 +30,15 @@ def existeDiretorio(diretorio):
         return False
 
 
+def inexisteArquivo(arquivo):
+    if ismp3(arquivo) == True:
+        arquivo_inexiste = f'>>> O arquivo "{arquivo}" não foi encontrado.\n>>> Lembre-se: apenas arquivos mp3 são reproduzidos.'
+        return arquivo_inexiste
+    else:
+        musica_inexiste = f'>>> A música "{arquivo}" não foi encontrada.'
+        return musica_inexiste
+
+
 def sair(txt):
     sair = str(input(txt)).strip().lower()
     while sair != 'sim' and sair != 'não':
@@ -42,10 +51,6 @@ def sair(txt):
 
     if sair == 'sim':
         return True
-
-
-def diretorio(arquivo):
-    return path.dirname(path.realpath(__file__)) + '/audio' + '/' + arquivo
 
 
 def volume(txt):
@@ -99,4 +104,22 @@ def opcoes_loop():
 [3] Tocar 4 vezes
 [4] Tocar até um próximo reinício''')
     return opcoes_loop_texto
+
+
+def arquivoFormato(variavel):
+    if ismp3(variavel):
+        return variavel
+    else:
+        return variavel + '.mp3'
+
+
+def musicaFormato(variavel):
+    if ismp3(variavel):
+        return variavel[:-4]
+    else:
+        return variavel
+
+
+def diretorioFormato(pasta, arquivo):
+    return path.dirname(path.realpath(__file__)) + '/' + pasta + '/' + arquivo
 

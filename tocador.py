@@ -7,27 +7,15 @@ mixer.init()
 
 while True:
     musica = str(input('\nQual música deseja ouvir: ')).strip()
-    while musica == '':
-        print('>>> Digite algo.')
-        print('>>> Lembre-se: apenas arquivos mp3 são reproduzidos.')
-        musica = str(input('\nQual música deseja ouvir: ')).strip()
 
     if comandos.existeArquivo(musica, 'audio') == True:
-        if comandos.ismp3(musica) ==  True:
-            arquivo = musica
-            musica = musica[:-4]
-            diretorio = comandos.diretorio(arquivo)
-            break
-        else:
-            arquivo = musica + '.mp3'
-            diretorio = comandos.diretorio(arquivo)
-            break
+       arquivo = comandos.arquivoFormato(musica)
+       musica = comandos.musicaFormato(musica)
+       diretorio =  comandos.diretorioFormato('audio', arquivo)
+       break
 
     if comandos.existeArquivo(musica, 'audio') == False:
-        if comandos.ismp3(musica) == True:
-            print(f'>>> O arquivo "{musica}" não foi encontrado.')
-        else:
-            print(f'>>> A música "{musica}" não foi encontrada.')
+        print(comandos.inexisteArquivo(musica))
 
 mixer.music.load(diretorio)
 mixer.music.set_volume(0.3)
@@ -63,15 +51,15 @@ while True:
     elif opcao == '6':
         volume = comandos.volume('Digite um novo volume: ')
 
-        print(f'>>> O volume foi mudado de {mixer.music.get_volume() * 10:.0f} para {volume}.')
         mixer.music.set_volume(volume / 10)
+        print(f'>>> O volume foi mudado de {mixer.music.get_volume() * 10:.0f} para {volume}.')
 
 
 # PLAYLIST
     elif opcao == '8':
         cont = 1
         print('>>> As músicas reproduzidas foram:')
-        for musica_tocadas in playlist:
+        for musica_tocada in playlist:
             print(cont, '-', end=' ')
             print(musica_tocadas)
             cont += 1
@@ -108,27 +96,15 @@ while True:
         if acabou == 'sim':
             while True:
                 musica = str(input('\nQual música deseja ouvir: ')).strip()
-                while musica == '':
-                    print('>>> Digite algo.')
-                    print('>>> Lembre-se: apenas arquivos mp3 e são reproduzidos.')
-                    musica = str(input('\nQual música deseja ouvir: ')).strip()
 
                 if comandos.existeArquivo(musica, 'audio') == True:
-                    if comandos.ismp3(musica) ==  True:
-                        arquivo = musica
-                        musica = musica[:-4]
-                        diretorio = comandos.diretorio(arquivo)
-                        break
-                    else:
-                        arquivo = musica + '.mp3'
-                        diretorio = comandos.diretorio(arquivo)
-                        break
+                    arquivo = comandos.arquivoFormato(musica)
+                    musica = comandos.musicaFormato(musica)
+                    diretorio =  comandos.diretorioFormato('audio', arquivo)
+                    break
 
                 if comandos.existeArquivo(musica, 'audio') == False:
-                    if comandos.ismp3(musica) == True:
-                        print(f'>>> O arquivo "{musica}" não foi encontrado.')
-                    else:
-                        print(f'>>> A música "{musica}" não foi encontrada.')
+                    print(comandos.inexisteArquivo(musica))
 
             mixer.music.load(diretorio)
             mixer.music.set_volume(0.3)
@@ -142,27 +118,15 @@ while True:
 
         while True:
                 musica = str(input('\nQual música deseja ouvir: ')).strip()
-                while musica == '':
-                    print('>>> Digite algo.')
-                    print('>>> Lembre-se: apenas arquivos mp3 são reproduzidos.')
-                    musica = str(input('\nQual música deseja ouvir: ')).strip()
 
                 if comandos.existeArquivo(musica, 'audio') == True:
-                    if comandos.ismp3(musica) ==  True:
-                        arquivo = musica
-                        musica = musica[:-4]
-                        diretorio = comandos.diretorio(arquivo)
-                        break
-                    else:
-                        arquivo = musica + '.mp3'
-                        diretorio = comandos.diretorio(arquivo)
-                        break
+                    arquivo = comandos.arquivoFormato(musica)
+                    musica = comandos.musicaFormato(musica)
+                    diretorio =  comandos.diretorioFormato('audio', arquivo)
+                    break
 
                 if comandos.existeArquivo(musica, 'audio') == False:
-                    if comandos.ismp3(musica) == True:
-                        print(f'>>> O arquivo "{musica}" não foi encontrado.')
-                    else:
-                        print(f'>>> A música "{musica}" não foi encontrada.')
+                    print(comandos.inexisteArquivo(musica))
 
         proseguir = str(input(f'Deseja substituir "{musica_substituida}" por "{musica}" [sim/não]: ')).strip().lower()
         while proseguir != 'sim' and proseguir != 'não':
