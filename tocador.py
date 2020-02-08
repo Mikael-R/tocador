@@ -26,7 +26,7 @@ print(comandos.opcoes())
 while True:
     opcao = str(input('\nQual sua opção: ')).strip()
 
-# SAIR
+# SAIR #
     if opcao == '0':
         sair = comandos.sair('Deseja sair do programa [sim/não]: ')
         if sair == False:
@@ -35,15 +35,15 @@ while True:
             print('>>> Programa finalizado!')
             exit()
 
-# VOLUME
-    elif opcao == '5':
+# VOLUME #
+    elif opcao == '2':
         try:
             print(f'>>> O volume atual é {volume}.')
         except NameError:
             print(f'>>> O volume atual é 3.')
 
-# MUDAR VOLUME
-    elif opcao == '6':
+# ALTERAR VOLUME #
+    elif opcao == '3':
         try:
             volume_anterior = volume
         except NameError:
@@ -52,17 +52,8 @@ while True:
         mixer.music.set_volume(volume / 10)
         print(f'>>> O volume foi mudado de {volume_anterior} para {volume}.')
 
-# PLAYLIST
-    elif opcao == '8':
-        cont = 1
-        print('>>> As músicas reproduzidas foram:')
-        for musica_tocada in playlist:
-            print(cont, '-', end=' ')
-            print(musica_tocada)
-            cont += 1
-
-# MUSICAS DISPONÍVEIS
-    elif opcao == '9':
+# MÚSICAS DISPONÍVEIS #
+    elif opcao == '4':
         if comandos.existeDiretorio('audio'):
             print('>>> As músicas disponíveis são: ')
             lista_musicas = comandos.disponiveis('audio')
@@ -74,11 +65,19 @@ while True:
         else:
             print('>>> Diretorio de músicas não encontrado.')
 
-# VERIFICAR
-    elif mixer.music.get_pos() == -1:
+# MÚSICAS REPRODUZIDAS #
+    elif opcao == '5':
+        cont = 1
+        print('>>> As músicas reproduzidas foram:')
+        for musica_tocada in playlist:
+            print(cont, '-', end=' ')
+            print(musica_tocada)
+            cont += 1
+
+# VERIFICAR #
+    elif comandos.tocando() == False:
         print(f'>>> Nenhuma música tocando no momento.')
         acabou = comandos.acabou('Deseja ouvir mais uma música [sim/não]: ')
-
         if acabou == True:
             break
         else:
@@ -99,7 +98,7 @@ while True:
             print(f'>>> A música "{musica.title()}" foi iniciada.')
             playlist.append(musica.title())
 
-# SUBSTITUIR
+# SUBSTITUIR #
     elif opcao == '1':
         musica_substituida = musica.title()
 
@@ -123,49 +122,49 @@ while True:
         else:
             print(comandos.opcoes())
 
-# LOOP
-    elif opcao == '2':
+# LOOP #
+    elif opcao == '6':
         print(comandos.opcoes_loop())
 
         while True:
             opcao_loop = str(input('\nQual sua opção: ')).strip()
 
-            # LOOP 1 VEZ
+            # LOOP 1 VEZ #
             if opcao_loop == '1':
                 mixer.music.play(1)
                 print(f'>>> A música "{musica}" foi reiniciada e será tocada 1 vez.')
                 print(comandos.opcoes())
                 break
-            # LOOP 3 VEZES
+            # LOOP 3 VEZES #
             elif opcao_loop == '2':
                 mixer.music.play(3)
                 print(f'>>> A música "{musica}" foi reiniciada e será tocada 3 vezes.')
                 print(comandos.opcoes())
                 break
-            # LOOP 4 VEZES
+            # LOOP 4 VEZES #
             elif opcao_loop == '3':
                 mixer.music.play(4)
                 print(f'>>> A música "{musica}" foi reiniciada e será tocada 4 vezes.')
                 print(comandos.opcoes())
                 break
-            # LOOP ATÉ REINICIAR
+            # LOOP ATÉ REINICIAR #
             if opcao_loop == '4':
                 mixer.music.play(-1)
                 print(f'>>> A música "{musica}" foi reiniciada e será tocada até ser reiniciada novamente.')
                 print(comandos.opcoes())
                 break
-            # LOOP ERRO
+            # LOOP ERRO #
             else:
                 print('>>> Digite uma opção válida.')
 
-# REINICIAR
-    elif opcao == '3':
+# REINICIAR #
+    elif opcao == '7':
         mixer.music.play(1)
         mixer.music.rewind()
         print(f'>>> A música "{musica.title()}" foi reiniciada, juntamente com seus loops.')
 
-# PAUSAR / DESPAUSAR
-    elif opcao == '4':
+# PAUSAR / DESPAUSAR #
+    elif opcao == '8':
         try:
             if pause == True:
                 mixer.music.unpause()
@@ -180,10 +179,6 @@ while True:
             mixer.music.pause()
             print(f'>>> A música "{musica.title()}" foi pausada.')
 
-# NOME
-    elif opcao == '7':
-        print(f'>>> O nome da música atual é "{musica.title()}".')
-
-# OPÇÃO INVÁLIDA
+# OPÇÃO INVÁLIDA #
     else:
         print('>>> Digite uma opção válida.')

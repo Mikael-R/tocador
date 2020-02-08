@@ -1,4 +1,5 @@
 from os import path, listdir
+from pygame import mixer
 
 
 def ismp3(arquivo):
@@ -104,23 +105,22 @@ def disponiveis(pasta):
 
 def opcoes():
     opcoes_texto = ('''
-======= OPÇÕES =======
-[0] Sair
-[1] Substituir
-[2] Loop
-[3] Reiniciar
-[4] Pausar / Despausar
-[5] Volume
-[6] Alterar volume
-[7] Música atual
-[8] Músicas reproduzidas
-[9] Músicas disponíveis''')
+========= OPÇÕES =========
+ [0] Sair
+ [1] Substituir
+ [2] Volume
+ [3] Alterar volume
+ [4] Músicas disponíveis
+ [5] Músicas reproduzidas
+ [6] Loop
+ [7] Reiniciar
+ [8] Pausar / Despausar''')
     return opcoes_texto
 
 
 def opcoes_loop():
     opcoes_loop_texto = ('''
-========== OPÇÕES ==========
+============= OPÇÕES =============
 [1] Tocar 1 vez
 [2] Tocar 3 vezes
 [3] Tocar 4 vezes
@@ -144,4 +144,11 @@ def musicaFormato(variavel):
 
 def diretorioFormato(pasta, arquivo):
     return path.dirname(path.realpath(__file__)) + '/' + pasta + '/' + arquivo
+
+
+def tocando():
+    if mixer.music.get_pos() == -1:
+        return False
+    else:
+        return True
 
