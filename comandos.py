@@ -42,15 +42,37 @@ def inexisteArquivo(arquivo):
 def sair(txt):
     sair = str(input(txt)).strip().lower()
     while sair != 'sim' and sair != 'não':
-        print('>>> Digite uma opção válida.')
-        print('')
+        print('>>> Digite uma opção válida.\n')
         sair = str(input(txt)).strip().lower()
-
-    if sair == 'não':
-        return False
 
     if sair == 'sim':
         return True
+    else:
+        return False
+
+
+def acabou(txt):
+    acabou = str(input(txt)).strip().lower()
+    while acabou != 'sim' and acabou != 'não':
+        print('>>> Digite uma opção válida.\n')
+        acabou = str(input(txt)).strip().lower()
+
+    if acabou == 'não':
+        return True
+    else:
+        return False
+
+
+def prosseguir(txt):
+    prosseguir = str(input(txt)).strip().lower()
+    while prosseguir != 'sim' and prosseguir != 'não':
+        print('>>> Digite uma opção válida.\n')
+        prosseguir = str(input(txt)).strip().lower()
+
+    if prosseguir == 'sim':
+        return True
+    else:
+        return False
 
 
 def volume(txt):
