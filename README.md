@@ -7,6 +7,6 @@
 
 Em breve:
 
-  • Donwload de músicas dentro do próprio tocador
+• Donwload de músicas dentro do próprio tocador
  
-  • Reprodução de mais formatos de audio
+• Reprodução de mais formatos de audio
