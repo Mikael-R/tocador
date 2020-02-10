@@ -6,14 +6,16 @@ mixer.init()
 
 while True:
     musica = str(input('\nQual música deseja ouvir: ')).strip()
-
-    if comandos.existeArquivo(musica, 'audio') == True:
-       arquivo = comandos.arquivoFormato(musica)
-       musica = comandos.musicaFormato(musica)
-       diretorio =  comandos.diretorioFormato('audio', arquivo)
-       break
+    if comandos.musicaExiste(musica):
+        if comandos.musicaDuplicada(musica):
+            print(f'>>> A música "{musica.title()}" foi encontrada com outro(s) formato(s) no mesmo diretório, especifique um formato.')
+        else:
+            arquivo   = comandos.arquivoFormatado(musica)
+            musica    = comandos.musicaFormatada(musica)
+            diretorio = comandos.diretorioFormatado(arquivo)
+            break
     else:
-        print(comandos.inexisteArquivo(musica))
+        print(comandos.musicaInexiste(musica))
 
 mixer.music.load(diretorio)
 mixer.music.set_volume(0.3)
@@ -54,16 +56,16 @@ while True:
 
 # MÚSICAS DISPONÍVEIS #
     elif opcao == '4':
-        if comandos.existeDiretorio('audio'):
+        lista_musicas = comandos.musicasDisponiveis()
+        if lista_musicas != 'NONE':
             print('>>> As músicas disponíveis são: ')
-            lista_musicas = comandos.disponiveis('audio')
             cont = 1
             for lista_musica in lista_musicas:
                 print(cont, '-', end=' ')
                 print(lista_musica[:-4])
                 cont += 1
         else:
-            print('>>> Diretorio de músicas não encontrado.')
+            print('>>> O diretório das músicas não foi encontrado.')
 
 # MÚSICAS REPRODUZIDAS #
     elif opcao == '5':
@@ -75,7 +77,7 @@ while True:
             cont += 1
 
 # VERIFICAR #
-    elif comandos.tocando() == False:
+    elif comandos.musicaTocando() == False:
         print(f'>>> Nenhuma música tocando no momento.')
         acabou = comandos.acabou('Deseja ouvir mais uma música [sim/não]: ')
         if acabou == True:
@@ -83,17 +85,17 @@ while True:
         else:
             while True:
                 musica = str(input('\nQual música deseja ouvir: ')).strip()
-
-                if comandos.existeArquivo(musica, 'audio') == True:
-                    arquivo = comandos.arquivoFormato(musica)
-                    musica = comandos.musicaFormato(musica)
-                    diretorio =  comandos.diretorioFormato('audio', arquivo)
+                if comandos.musicaExiste(musica):
+                    if comandos.musicaDuplicada(musica):
+                        print(f'>>> A música "{musica.title()}" foi encontrada com outro(s) formato(s) no mesmo diretório, especifique um formato.')
+                    arquivo   = comandos.arquivoFormatado(musica)
+                    musica    = comandos.musicaFormatada(musica)
+                    diretorio = comandos.diretorioFormatado(arquivo)
                     break
                 else:
-                    print(comandos.inexisteArquivo(musica))
+                    print(comandos.musicaInexiste(musica))
 
             mixer.music.load(diretorio)
-            mixer.music.set_volume(0.3)
             mixer.music.play(1)
             print(f'>>> A música "{musica.title()}" foi iniciada.')
             playlist.append(musica.title())
@@ -104,14 +106,15 @@ while True:
 
         while True:
                 musica = str(input('\nQual música deseja ouvir: ')).strip()
-
-                if comandos.existeArquivo(musica, 'audio') == True:
-                    arquivo = comandos.arquivoFormato(musica)
-                    musica = comandos.musicaFormato(musica)
-                    diretorio =  comandos.diretorioFormato('audio', arquivo)
+                if comandos.musicaExiste(musica):
+                    if comandos.musicaDuplicada(musica):
+                        print(f'>>> A música "{musica.title()}" foi encontrada com outro(s) formato(s) no mesmo diretório, especifique um formato.')
+                    arquivo   = comandos.arquivoFormatado(musica)
+                    musica    = comandos.musicaFormatada(musica)
+                    diretorio = comandos.diretorioFormatado(arquivo)
                     break
                 else:
-                    print(comandos.inexisteArquivo(musica))
+                    print(comandos.musicaInexiste(musica))
 
         proseguir = comandos.prosseguir(f'Deseja substituir "{musica_substituida}" por "{musica}" [sim/não]: ')
         if proseguir == True:
@@ -124,31 +127,21 @@ while True:
 
 # LOOP #
     elif opcao == '6':
-        print(comandos.opcoes_loop())
+        print(comandos.opcoesLoop())
 
         while True:
             opcao_loop = str(input('\nQual sua opção: ')).strip()
 
-            # LOOP 1 VEZ #
-            if opcao_loop == '1':
-                mixer.music.play(1)
-                print(f'>>> A música "{musica}" foi reiniciada e será tocada 1 vez.')
-                print(comandos.opcoes())
-                break
             # LOOP 3 VEZES #
-            elif opcao_loop == '2':
-                mixer.music.play(3)
-                print(f'>>> A música "{musica}" foi reiniciada e será tocada 3 vezes.')
-                print(comandos.opcoes())
+            if opcao_loop == '1':
+                loop = 3
                 break
             # LOOP 4 VEZES #
-            elif opcao_loop == '3':
-                mixer.music.play(4)
-                print(f'>>> A música "{musica}" foi reiniciada e será tocada 4 vezes.')
-                print(comandos.opcoes())
+            elif opcao_loop == '2':
+                loop = 4
                 break
             # LOOP ATÉ REINICIAR #
-            if opcao_loop == '4':
+            if opcao_loop == '3':
                 mixer.music.play(-1)
                 print(f'>>> A música "{musica}" foi reiniciada e será tocada até ser reiniciada novamente.')
                 print(comandos.opcoes())
@@ -156,6 +149,10 @@ while True:
             # LOOP ERRO #
             else:
                 print('>>> Digite uma opção válida.')
+        if opcao_loop == '1' or opcao_loop == '2':
+            mixer.music.play(loop)
+            print(f'>>> A música "{musica}" foi reiniciada e será tocada {loop} vezes.')
+            print(comandos.opcoes())
 
 # REINICIAR #
     elif opcao == '7':

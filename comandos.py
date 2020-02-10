@@ -1,45 +1,83 @@
 from os import path, listdir
 from pygame import mixer
 
+diretorio_atual = path.dirname(path.realpath(__file__))
+diretorio_audio = diretorio_atual + '/' + 'audio'
+formatos = ['.mp3', '.mp4', '.wma', '.aac', '.pcm', '.ac3', '.mov']
 
-def ismp3(arquivo):
-    if arquivo[-4:] == '.mp3':
+# VERIFICAÇÕES #
+def musicaTocando():
+    if mixer.music.get_pos() == -1:
+        return False
+    else:
+        return True
+
+
+def musicaFormato(musica, diretorio=diretorio_audio):
+    try:
+        for formato in formatos:
+            if musica[-4:] != formato:
+                arquivo = musica + formato
+                musica_diretorio = diretorio + '/' + arquivo
+                if path.exists(musica_diretorio):
+                    musica_formato = formato
+                    break
+            else:
+                arquivo = musica
+                musica_diretorio = diretorio + '/' + arquivo
+                if path.exists(musica_diretorio):
+                    musica_formato = formato
+                    break
+        return musica_formato
+    except UnboundLocalError:
+        return 'NONE'
+
+
+def musicasDisponiveis(diretorio=diretorio_audio):
+    try:
+        disponiveis_lista = listdir(diretorio)
+        return disponiveis_lista
+    except FileNotFoundError:
+        return 'NONE'
+
+
+def musicaDuplicada(musica, diretorio=diretorio_audio):
+    cont = 1
+    if musica[-4:] == musicaFormato(musica):
+        musica = musica[-4:]
+    for formato in formatos:
+        arquivo = musica + formato
+        diretorio_arquivo = diretorio + '/' + arquivo
+        if path.exists(diretorio_arquivo):
+            cont += 1
+    if cont > 2:
+        return True
+    else:
+        return False
+
+def musicaExiste(musica, diretorio=diretorio_audio):
+    if musica[-4:] != musicaFormato(musica):
+        arquivo = musica + musicaFormato(musica)
+    else:
+        arquivo = musica
+    diretorio_arquivo = diretorio + '/' + arquivo
+    if path.exists(diretorio_arquivo):
         return True
     else:
         return False
 
 
-def existeArquivo(arquivo, diretorio):
-    if arquivo[-4:] != '.mp3':
-        arquivo = arquivo + '.mp3'
+def musicaInexiste(arquivo):
+    for formato in formatos:
+        if arquivo[-4:] == formato:
+            inexiste_txt = f'>>> O arquivo "{arquivo}" não foi encontrado.'
+            break
+        else:
+            inexiste_txt = f'>>> A música "{arquivo}" não foi encontrada.'
 
-    diretorio_audio = path.dirname(path.realpath(__file__)) + '/' + diretorio
-    arquivo_diretorio = diretorio_audio + '/' + arquivo
+    return inexiste_txt
 
-    if path.exists(arquivo_diretorio):
-        return True
-    else:
-        return False
-
-
-def existeDiretorio(diretorio):
-    diretorio_atual = path.dirname(path.realpath(__file__))
-
-    if path.exists(diretorio_atual + '/' + diretorio):
-        return True
-    else:
-        return False
-
-
-def inexisteArquivo(arquivo):
-    if ismp3(arquivo) == True:
-        arquivo_inexiste = f'>>> O arquivo "{arquivo}" não foi encontrado.\n>>> Lembre-se: apenas arquivos mp3 são reproduzidos.'
-        return arquivo_inexiste
-    else:
-        musica_inexiste = f'>>> A música "{arquivo}" não foi encontrada.'
-        return musica_inexiste
-
-
+# TEXTOS #
 def sair(txt):
     sair = str(input(txt)).strip().lower()
     while sair != 'sim' and sair != 'não':
@@ -96,13 +134,6 @@ def volume(txt):
     return volume
 
 
-def disponiveis(pasta):
-    disponiveis_diretorio = path.dirname(path.realpath(__file__)) + '/' + pasta
-    disponiveis_lista = listdir(disponiveis_diretorio)
-
-    return disponiveis_lista
-
-
 def opcoes():
     opcoes_texto = ('''
 ========= OPÇÕES =========
@@ -118,37 +149,29 @@ def opcoes():
     return opcoes_texto
 
 
-def opcoes_loop():
+def opcoesLoop():
     opcoes_loop_texto = ('''
 ============= OPÇÕES =============
-[1] Tocar 1 vez
-[2] Tocar 3 vezes
-[3] Tocar 4 vezes
-[4] Tocar até um próximo reinício''')
+[1] Tocar 3 vezes
+[2] Tocar 4 vezes
+[3] Tocar até um próximo reinício''')
     return opcoes_loop_texto
 
-
-def arquivoFormato(variavel):
-    if ismp3(variavel):
-        return variavel
+# FORMATAÇÕES #
+def arquivoFormatado(musica):
+    if musica[-4:] == musicaFormato(musica):
+        return musica
     else:
-        return variavel + '.mp3'
+        return musica + musicaFormato(musica)
 
 
-def musicaFormato(variavel):
-    if ismp3(variavel):
-        return variavel[:-4]
+def musicaFormatada(musica):
+    if musica[-4:] == musicaFormato(musica):
+        return musica[:-4]
     else:
-        return variavel
+        return musica
 
 
-def diretorioFormato(pasta, arquivo):
-    return path.dirname(path.realpath(__file__)) + '/' + pasta + '/' + arquivo
-
-
-def tocando():
-    if mixer.music.get_pos() == -1:
-        return False
-    else:
-        return True
+def diretorioFormatado(arquivo, diretorio=diretorio_audio):
+    return diretorio + '/' + arquivo
 
