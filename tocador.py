@@ -3,6 +3,7 @@ import comandos
 
 playlist = list()
 mixer.init()
+comandos.limpar()
 
 while True:
     musica = str(input('\nQual música deseja ouvir: ')).strip()
@@ -116,7 +117,7 @@ while True:
                 else:
                     print(comandos.musicaInexiste(musica))
 
-        proseguir = comandos.prosseguir(f'Deseja substituir "{musica_substituida}" por "{musica}" [sim/não]: ')
+        proseguir = comandos.prosseguir(f'Deseja substituir "{musica_substituida}" por "{musica.tile()}" [sim/não]: ')
         if proseguir == True:
             mixer.music.load(diretorio)
             mixer.music.play(1)
@@ -142,23 +143,28 @@ while True:
                 break
             # LOOP ATÉ REINICIAR #
             if opcao_loop == '3':
-                mixer.music.play(-1)
-                print(f'>>> A música "{musica}" foi reiniciada e será tocada até ser reiniciada novamente.')
-                print(comandos.opcoes())
+                loop = -1
                 break
             # LOOP ERRO #
             else:
                 print('>>> Digite uma opção válida.')
-        if opcao_loop == '1' or opcao_loop == '2':
+
             mixer.music.play(loop)
-            print(f'>>> A música "{musica}" foi reiniciada e será tocada {loop} vezes.')
-            print(comandos.opcoes())
+            if loop == -1:
+                print(f'>>> A música "{musica}" foi reiniciada e será tocada até ser reiniciada novamente.')
+            else:
+                print(f'>>> A música "{musica}" foi reiniciada e será tocada {loop} vezes.')
+
 
 # REINICIAR #
     elif opcao == '7':
         mixer.music.play(1)
         mixer.music.rewind()
-        print(f'>>> A música "{musica.title()}" foi reiniciada, juntamente com seus loops.')
+        if loop == -1:
+            print(f'>>> A música "{musica}" foi reiniciada, com seus loops infinitos retirados.')
+        else:
+            print(f'>>> A música "{musica.title()}" foi reiniciada, com seus {loop} loops retirados.')
+
 
 # PAUSAR / DESPAUSAR #
     elif opcao == '8':

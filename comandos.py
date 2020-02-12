@@ -1,5 +1,6 @@
-from os import path, listdir
+from os import path, listdir, system, name
 from pygame import mixer
+import sys
 
 diretorio_atual = path.dirname(path.realpath(__file__))
 diretorio_audio = diretorio_atual + '/' + 'audio'
@@ -78,6 +79,13 @@ def musicaInexiste(arquivo):
     return inexiste_txt
 
 # TEXTOS #
+def limpar():
+    if name == 'nt':
+        system('cls')
+    else:
+        system('clear')
+
+
 def sair(txt):
     sair = str(input(txt)).strip().lower()
     while sair != 'sim' and sair != 'não':
