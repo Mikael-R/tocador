@@ -117,7 +117,7 @@ while True:
                 else:
                     print(comandos.musicaInexiste(musica))
 
-        proseguir = comandos.prosseguir(f'Deseja substituir "{musica_substituida}" por "{musica.tile()}" [sim/não]: ')
+        proseguir = comandos.prosseguir(f'Deseja substituir "{musica_substituida}" por "{musica.title()}" [sim/não]: ')
         if proseguir == True:
             mixer.music.load(diretorio)
             mixer.music.play(1)
@@ -149,21 +149,18 @@ while True:
             else:
                 print('>>> Digite uma opção válida.')
 
-            mixer.music.play(loop)
-            if loop == -1:
-                print(f'>>> A música "{musica}" foi reiniciada e será tocada até ser reiniciada novamente.')
-            else:
-                print(f'>>> A música "{musica}" foi reiniciada e será tocada {loop} vezes.')
+        mixer.music.play(loop)
+        if loop == -1:
+            print(f'>>> A música "{musica}" foi reiniciada e será tocada até ser reiniciada novamente.')
+        else:
+            print(f'>>> A música "{musica}" foi reiniciada e será tocada {loop} vezes.')
 
 
 # REINICIAR #
     elif opcao == '7':
         mixer.music.play(1)
         mixer.music.rewind()
-        if loop == -1:
-            print(f'>>> A música "{musica}" foi reiniciada, com seus loops infinitos retirados.')
-        else:
-            print(f'>>> A música "{musica.title()}" foi reiniciada, com seus {loop} loops retirados.')
+        print(f'>>> A música "{musica}" foi reiniciada, com seus loops retirados.')
 
 
 # PAUSAR / DESPAUSAR #
