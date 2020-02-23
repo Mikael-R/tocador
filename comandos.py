@@ -1,6 +1,5 @@
 from os import path, listdir, system, name
 from pygame import mixer
-import sys
 
 diretorio_atual = path.dirname(path.realpath(__file__))
 diretorio_audio = diretorio_atual + '/' + 'audio'
@@ -139,7 +138,7 @@ def volume(txt):
             volume = int(volume)
             break
 
-    return volume
+    return volume / 10
 
 
 def opcoes():

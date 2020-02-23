@@ -2,6 +2,8 @@ from pygame import mixer
 import comandos
 
 playlist = list()
+volume = 0.3
+pause = False
 mixer.init()
 comandos.limpar()
 
@@ -19,7 +21,7 @@ while True:
         print(comandos.musicaInexiste(musica))
 
 mixer.music.load(diretorio)
-mixer.music.set_volume(0.3)
+mixer.music.set_volume(volume)
 mixer.music.play(1)
 print(f'>>> A música "{musica.title()}" foi iniciada.')
 playlist.append(musica.title())
@@ -32,28 +34,22 @@ while True:
 # SAIR #
     if opcao == '0':
         sair = comandos.sair('Deseja sair do programa [sim/não]: ')
-        if sair == False:
-            print(comandos.opcoes())
-        else:
+        if sair:
             print('>>> Programa finalizado!')
             exit()
+        else:
+            print(comandos.opcoes())
 
 # VOLUME #
     elif opcao == '2':
-        try:
-            print(f'>>> O volume atual é {volume}.')
-        except NameError:
-            print(f'>>> O volume atual é 3.')
+        print(f'>>> O volume atual é {volume * 10:.0f}.')
 
 # ALTERAR VOLUME #
     elif opcao == '3':
-        try:
-            volume_anterior = volume
-        except NameError:
-            volume_anterior = 3
+        volume_anterior = volume
         volume = comandos.volume('Digite um novo volume: ')
-        mixer.music.set_volume(volume / 10)
-        print(f'>>> O volume foi mudado de {volume_anterior} para {volume}.')
+        mixer.music.set_volume(volume)
+        print(f'>>> O volume foi mudado de {volume_anterior * 10:.0f} para {volume * 10:.0f}.')
 
 # MÚSICAS DISPONÍVEIS #
     elif opcao == '4':
@@ -81,7 +77,7 @@ while True:
     elif comandos.musicaTocando() == False:
         print(f'>>> Nenhuma música tocando no momento.')
         acabou = comandos.acabou('Deseja ouvir mais uma música [sim/não]: ')
-        if acabou == True:
+        if acabou:
             break
         else:
             while True:
@@ -118,7 +114,7 @@ while True:
                     print(comandos.musicaInexiste(musica))
 
         proseguir = comandos.prosseguir(f'Deseja substituir "{musica_substituida}" por "{musica.title()}" [sim/não]: ')
-        if proseguir == True:
+        if proseguir:
             mixer.music.load(diretorio)
             mixer.music.play(1)
             print(f'>>> A música "{musica.title()}" foi iniciada, substituindo a música "{musica_substituida}".')
@@ -155,26 +151,19 @@ while True:
         else:
             print(f'>>> A música "{musica}" foi reiniciada e será tocada {loop} vezes.')
 
-
 # REINICIAR #
     elif opcao == '7':
         mixer.music.play(1)
         mixer.music.rewind()
         print(f'>>> A música "{musica}" foi reiniciada, com seus loops retirados.')
 
-
 # PAUSAR / DESPAUSAR #
     elif opcao == '8':
-        try:
-            if pause == True:
-                mixer.music.unpause()
-                pause = False
-                print(f'>>> A música "{musica.title()}" foi despausada.')
-            else:
-                pause = True
-                mixer.music.pause()
-                print(f'>>> A música "{musica.title()}" foi pausada.')
-        except NameError:
+        if pause:
+            pause = False
+            mixer.music.unpause()
+            print(f'>>> A música "{musica.title()}" foi despausada.')
+        else:
             pause = True
             mixer.music.pause()
             print(f'>>> A música "{musica.title()}" foi pausada.')
