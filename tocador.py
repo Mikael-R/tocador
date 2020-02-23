@@ -5,7 +5,6 @@ playlist = list()
 volume = 0.3
 pause = False
 mixer.init()
-comandos.limpar()
 
 while True:
     musica = str(input('\nQual música deseja ouvir: ')).strip()
