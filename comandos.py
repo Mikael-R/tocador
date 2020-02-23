@@ -1,9 +1,9 @@
-from os import path, listdir
+﻿from os import path, listdir
 from pygame import mixer
 
 diretorio_atual = path.dirname(path.realpath(__file__))
 diretorio_audio = diretorio_atual + '/' + 'audio'
-formatos = ['.mp3', '.mp4', '.wma', '.aac', '.pcm', '.ac3', '.mov']
+formatos = ['.mp3', '.mp4', '.wma', '.aac', '.pcm', '.ac3', '.flv', '.m4a']
 
 # VERIFICAÇÕES #
 def musicaTocando():
