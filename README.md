@@ -7,6 +7,4 @@
 
 • Reprodução padrão nos formatos: |MP3| MP4| WMA| AAC| PCM| AC3| FLV| M4A|
 
-Em breve:
-
 • Donwload de músicas dentro do próprio tocador
